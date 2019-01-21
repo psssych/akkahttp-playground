@@ -1,10 +1,26 @@
 import akka.http.scaladsl.model.{StatusCode, StatusCodes}
 
-final case class ApiError private(statusCode: StatusCode, message: String)
+sealed trait ApiError {
+  def statusCode: StatusCode
+  def message: String
+}
+
 
 object ApiError {
+//  final case class Error(statusCode: StatusCode, message: String) extends WithMessage
 
-//  private def apply(statusCode: StatusCode, message: String): ApiError = new ApiError(statusCode, message)
+  object GenericApiError extends ApiError {
+    val statusCode: StatusCode = StatusCodes.InternalServerError
+    val message: String = "Unknown Error"
+  }
 
-  val generic: ApiError = ApiError(StatusCodes.InternalServerError, "Unknown error.")
+  object EmptyTitleFieldError extends ApiError {
+    val statusCode: StatusCode = StatusCodes.BadRequest
+    val message: String = "The todo title must not be empty !"
+  }
+
+  final case class TodoNotFoundError(id: String) extends ApiError {
+    val statusCode: StatusCode = StatusCodes.BadRequest
+    val message: String = s"The todo to update must exist ! Got: $id"
+  }
 }

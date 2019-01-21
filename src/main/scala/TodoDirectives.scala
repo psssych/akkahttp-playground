@@ -15,6 +15,6 @@ trait TodoDirectives extends Directives {
       complete(apiError.statusCode, apiError.message)
   }
 
-  def handleWithGeneric[T](f: Future[T]): Directive1[T] = handle(f)(_ => ApiError.generic)
+  def handleWithGeneric[T](f: Future[T]): Directive1[T] = handle(f)(_ => ApiError.GenericApiError)
 
 }

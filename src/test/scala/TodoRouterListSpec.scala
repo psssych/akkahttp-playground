@@ -44,30 +44,30 @@ class TodoRouterListSpec extends WordSpec with Matchers with ScalatestRouteTest 
 
   "Failing Repository" should {
 
-    val repository = new FailingTodoRepository
+    val repository = FailingTodoRepository
     val router = new TodoRouter(repository)
 
     "handle repository failure in todos route" in {
       Get("/todos") ~> router.route ~> check {
-        status shouldBe ApiError.generic.statusCode
+        status shouldBe ApiError.GenericApiError.statusCode
         val resp = responseAs[String]
-        resp shouldBe ApiError.generic.message
+        resp shouldBe ApiError.GenericApiError.message
       }
     }
 
     "handle repository failure in todos/done route" in {
       Get("/todos/done") ~> router.route ~> check {
-        status shouldBe ApiError.generic.statusCode
+        status shouldBe ApiError.GenericApiError.statusCode
         val resp = responseAs[String]
-        resp shouldBe ApiError.generic.message
+        resp shouldBe ApiError.GenericApiError.message
       }
     }
 
     "handle repository failure in todos/pending route" in {
       Get("/todos/pending") ~> router.route ~> check {
-        status shouldBe ApiError.generic.statusCode
+        status shouldBe ApiError.GenericApiError.statusCode
         val resp = responseAs[String]
-        resp shouldBe ApiError.generic.message
+        resp shouldBe ApiError.GenericApiError.message
       }
     }
   }

@@ -34,7 +34,7 @@ class TodoDirectivesSpec extends WordSpec with Matchers with ScalatestRouteTest 
       Get("/test/failure") ~> testRoute ~> check {
         status shouldBe StatusCodes.InternalServerError
         val resp = responseAs[String]
-        resp shouldBe ApiError.generic.message
+        resp shouldBe ApiError.GenericApiError.message
       }
     }
   }
